@@ -31,12 +31,14 @@ I am making this project using [XAMPP](https://www.apachefriends.org/) which has
 - [ ] Suggested aircraft/aircraft from database selection.
 - [ ] Airport chart information.
 - [ ] Aircraft tooltip information.
+- [ ] Separate table for currently active users.
 - [ ] Admin accounts with the ability to activate other accounts.
 - [x] Quick airport change.
 - [x] Airport information.
 
 ## **Tweaks** 🔧
 
+- [ ] Transfer all JavaScript to files.
 - [ ] Automatically log out a user after a period of inactivity (Task scheduler/CRON/MySQL scheduler?).
 - [ ] Combine config and auth .php files into a single .env file.
 - [ ] Give each user and plan a randomly generated ID instead of auto incrementing.
@@ -81,7 +83,7 @@ CREATE TABLE `users` (
 	`created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of registration',
 	`activated` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Is the account activated?',
 	`loggedIn` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Is the user logged in?',
-	`airport` VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'the airport the user is controlling',
+	`airport` VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The airport the user is controlling',
 	UNIQUE KEY `discord` (`discord`) USING BTREE,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;

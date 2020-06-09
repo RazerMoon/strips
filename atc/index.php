@@ -101,7 +101,7 @@
         <script>
             $(document).ready(() => {
                 $('#airModal-button').click(() => {
-                    $('#airModal-body').load('/scripts/getairinfo.php', (response, status, xhr) => {
+                    $('#airModal-body').load('/scripts/airinfoscript.php', (response, status, xhr) => {
                         if ( status == "error" ) {
                             $('#airModal-body').html(`Error: ${xhr.status}`);
                         }
@@ -110,7 +110,7 @@
             
                 $('#changeButton').click(() => {
                     let input = $('#changeAirport').val().toUpperCase();
-                    $.post('/scripts/getairinfo.php', {icao: input})
+                    $.post('/scripts/airinfoscript.php', {icao: input})
                         .done(() => {
                             alert("Airport changed successfully!");
                             $('#airModal-button')[0].innerText = input;

@@ -24,7 +24,7 @@
                 http_response_code(406);
             }
         }
-    } else {
+    } elseif ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (isset($_POST['icao'])) {
             $icao = $_POST["icao"];
             if (AirInfo::validate($icao)) {
