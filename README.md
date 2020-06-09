@@ -28,6 +28,7 @@ I am making this project using [XAMPP](https://www.apachefriends.org/) which has
 
 - [ ] In-depth analysis of Salad's Downwind Strips System.
 - [ ] Messaging system.
+- [ ] Username emoji support.
 - [ ] Suggested aircraft/aircraft from database selection.
 - [ ] Airport chart information.
 - [ ] Aircraft tooltip information.
@@ -38,7 +39,7 @@ I am making this project using [XAMPP](https://www.apachefriends.org/) which has
 
 ## **Tweaks** 🔧
 
-- [ ] Transfer all JavaScript to files.
+- [x] Transfer all JavaScript to files.
 - [ ] Automatically log out a user after a period of inactivity (Task scheduler/CRON/MySQL scheduler?).
 - [ ] Combine config and auth .php files into a single .env file.
 - [ ] Give each user and plan a randomly generated ID instead of auto incrementing.

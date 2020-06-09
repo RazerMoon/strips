@@ -1,15 +1,4 @@
 <?php
-    /* ---------------------------------- */
-    /* Function used to sanitize strings. */
-    /* ---------------------------------- */
-    
-    function clean($string) {
-        $string = trim($string);                                // Removes outside spaces.
-        $string = str_replace(' ', '', $string);                // Replaces all spaces with hyphens.
-    
-        return preg_replace('/[^A-Za-z0-9\-]/', '', $string);   // Removes special chars.
-    }
-    
     /* ------------------------------------------------------------------------------------------------------------------------------------------------ */
     /* Database credentials. Assuming you are running MySQL server with default setting (user 'root' with no password). Check out README for structure. */
     /* ------------------------------------------------------------------------------------------------------------------------------------------------ */

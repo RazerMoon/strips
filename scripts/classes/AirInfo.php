@@ -16,7 +16,7 @@
             }
         }
 
-        // Changes airports, this is temporary until a full script with mysql inegration is made.
+        // Changes airport session variable and erases saved airport information.
 
         public function changeAirport($icao) {
             $_SESSION["Airport_ICAO"] = $icao;

@@ -8,6 +8,14 @@
     //print_r($_SESSION);
     //echo "</pre>";
 
+    function clean($string) {
+        $string = trim($string);                                // Removes outside spaces.
+        preg_replace('/[^A-Za-z0-9\-]/', '', $string);          // Removes special chars.
+        $string = str_replace(' ', '', $string);                // Replaces all spaces with hyphens.
+    
+        return $string;
+    }
+
     function login() {
         require_once "config/config.php";   // Database details.
 
@@ -175,66 +183,69 @@
         }
     }
 
-    if (isset($_GET['code']) && isset($_SESSION['Mode'])) {  
-        // Sending application data in the POST request.
-        $fields = [
-            'client_id'      => AUTH_CLIENT_ID,
-            'client_secret'  => AUTH_CLIENT_SECRET,
-            'grant_type'     => AUTH_GRANT_TYPE,
-            'code'           => $_GET['code'],
-            'redirect_uri'   => AUTH_REDIRECT_URL,
-            'scope'          => AUTH_SCOPE
-        ];
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+
+        if (isset($_GET['code']) && isset($_SESSION['Mode'])) {  
+            // Sending application data in the POST request.
+            $fields = [
+                'client_id'      => AUTH_CLIENT_ID,
+                'client_secret'  => AUTH_CLIENT_SECRET,
+                'grant_type'     => AUTH_GRANT_TYPE,
+                'code'           => $_GET['code'],
+                'redirect_uri'   => AUTH_REDIRECT_URL,
+                'scope'          => AUTH_SCOPE
+            ];
+            
+            // Open connection.
+            $ch = curl_init();
+            
+            // Set the URL, POST variables and POST data
+            curl_setopt($ch, CURLOPT_URL, AUTH_TOKEN_URL);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/x-www-form-urlencoded'
+            ));
+            
+            // So that curl_exec returns the contents of the cURL; rather than echoing it.
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
         
-        // Open connection.
-        $ch = curl_init();
+            // Turn result into JSON
+            $jsonData = json_decode(curl_exec($ch), true);
         
-        // Set the URL, POST variables and POST data
-        curl_setopt($ch, CURLOPT_URL, AUTH_TOKEN_URL);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-            'Content-Type: application/x-www-form-urlencoded'
-        ));
+            curl_close($ch);
         
-        // So that curl_exec returns the contents of the cURL; rather than echoing it.
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); 
-
-        // Turn result into JSON
-        $jsonData = json_decode(curl_exec($ch), true);
-
-        curl_close($ch);
-
-        //echo "<pre>";
-        //print_r($jsonData);
-        //echo "<pre>";
-
-        if (isset($jsonData['error'])) {                            // If the data reutrned an error.
-            $error = $jsonData['error'];
-
-          if ($_SESSION['Mode'] == 'login') {
-              header("Location: /login?error={$error}");            // Send back to login page with an error.
-          } else {
-                header("Location: /register?error={$error}");       // Send back to register page with an error.
+            //echo "<pre>";
+            //print_r($jsonData);
+            //echo "<pre>";
+        
+            if (isset($jsonData['error'])) {                            // If the data reutrned an error.
+                $error = $jsonData['error'];
+            
+            if ($_SESSION['Mode'] == 'login') {
+                header("Location: /login?error={$error}");            // Send back to login page with an error.
+            } else {
+                    header("Location: /register?error={$error}");       // Send back to register page with an error.
+                }
+            } else {
+                getData($jsonData['access_token']);                     // Exchange the access token for discord credentials.
+            }
+        }
+        elseif (isset($_GET['action'])) { 
+            switch($_GET['action']) {               // If user is trying to login or register.
+                case 'login':
+                    header(AUTH_URL);               // Redirect to auth URL.
+                    $_SESSION['Mode'] = 'login';    // Set session action.
+                    break;
+                case 'register':
+                    header(AUTH_URL);
+                    $_SESSION['Mode'] = 'register';
+                    break;
+                default:
+                    break;
             }
         } else {
-            getData($jsonData['access_token']);                     // Exchange the access token for discord credentials.
+            echo "Error, are you trying to use this page without going through login or register first?";
         }
-    }
-    elseif (isset($_GET['action'])) { 
-        switch($_GET['action']) {               // If user is trying to login or register.
-            case 'login':
-                header(AUTH_URL);               // Redirect to auth URL.
-                $_SESSION['Mode'] = 'login';    // Set session action.
-                break;
-            case 'register':
-                header(AUTH_URL);
-                $_SESSION['Mode'] = 'register';
-                break;
-            default:
-                break;
-        }
-    } else {
-        echo "Error, are you trying to use this page without going through login or register first?";
     }
 ?>
