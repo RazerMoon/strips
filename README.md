@@ -68,10 +68,10 @@ The user accounts are stored in the **"users"** table.
 
 Entry structure:
 
-| id |  username | discriminator |       discord      |      created_at     | activated | loggedIn | airport |
-|:--:|:---------:|:-------------:|:------------------:|:-------------------:|:---------:|:--------:|:-------:|
-| 36 | RazerMoon |      7589     | 162970149857656832 | 2020-06-01 12:27:34 |     1     |     0    |         |
-| AUTO_INCREMENT ||              |                    | current_timestamp() |     0     |     0    |         |
+| id |  username | discriminator |       discord      |      created_at     | activated | loggedIn | airport | position |
+|:--:|:---------:|:-------------:|:------------------:|:-------------------:|:---------:|:--------:|:-------:|:--------:|
+| 36 | RazerMoon |      7589     | 162970149857656832 | 2020-06-01 12:27:34 |     1     |     0    |  KJFK   |  Tower   |
+| AUTO_INCREMENT ||              |                    | current_timestamp() |     0     |     0    |         |          |
 
 Use this MySQL query to set it up:
 
@@ -85,6 +85,7 @@ CREATE TABLE `users` (
 	`activated` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Is the account activated?',
 	`loggedIn` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Is the user logged in?',
 	`airport` VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The airport the user is controlling',
+    `position` VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The controllers position',
 	UNIQUE KEY `discord` (`discord`) USING BTREE,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;

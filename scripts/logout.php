@@ -7,7 +7,7 @@
 
     session_start();        // Starts the session.
 
-    $sql = "UPDATE `users` SET `loggedIn`= 0, `airport`='' WHERE `discord` = ?";
+    $sql = "UPDATE `users` SET `loggedIn`= 0, `airport`='', `position`='' WHERE `discord` = ?";
 
     if($stmt = mysqli_prepare($link, $sql)){
 
