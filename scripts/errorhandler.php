@@ -38,6 +38,11 @@
 
             case 'taken':
                 $title = "Account taken!";
+                $info = "This account is already registered! Click <a href='/login'>here</a> to sign in.";
+            break;
+
+            case 'activate':
+                $title = "Account taken!";
                 $info = "This account is already registered! Please contact a moderator for activation.";
             break;
 

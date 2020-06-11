@@ -19,37 +19,35 @@
     function login() {
         require_once "config/config.php";   // Database details.
 
-        $sql = "SELECT activated FROM users WHERE discord = ?";
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = $mysqli->prepare("SELECT activated FROM users WHERE discord = ?")){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_username);
+            $stmt->bind_param("s", $param_username);
             
             // Set parameters
             $param_username = $_SESSION["Discord"];
             // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
+            if($stmt->execute()){
                 /* store result */
-                mysqli_stmt_store_result($stmt);
+                $stmt->store_result();
 
-                mysqli_stmt_bind_result($stmt, $activated);
+                $stmt->bind_result($activated);
                 
-                if(mysqli_stmt_num_rows($stmt) == 1){
-                    if (mysqli_stmt_fetch($stmt) == TRUE) {
-                        if ($activated == 1) {
+                if($stmt->num_rows() == 1){
+                    if ($stmt->fetch()) {
+                        if ($activated) {
                             $_SESSION['LoggedIn'] = TRUE;
-                            mysqli_stmt_close($stmt);
+                            $stmt->close();
                             /* Set loggedIn to true*/
-                            $sql = 'UPDATE `users` SET `loggedIn`= 1, `airport` = ?, `position` = ? WHERE `discord` = ?';
-                            if($stmt = mysqli_prepare($link, $sql)){ 
+                            if($stmt = $mysqli->prepare("UPDATE `users` SET `loggedIn`= 1, `airport` = ?, `position` = ? WHERE `discord` = ?")){ 
                                 
-                                mysqli_stmt_bind_param($stmt, "sss", $_SESSION['Airport_ICAO'], mysqli_real_escape_string($link, $_SESSION["Position"]), $param_username);
+                                $stmt->bind_param("sss", $_SESSION['Airport_ICAO'], mysqli_real_escape_string($mysqli, $_SESSION["Position"]), $param_username);
 
-                                if(mysqli_stmt_execute($stmt)){
+                                if($stmt->execute()){
 
-                                    mysqli_stmt_store_result($stmt);
+                                    $stmt->store_result();
 
                                     /* If row was affected (Value changed) */
-                                    if(mysqli_stmt_affected_rows($stmt) == 1){
+                                    if($stmt->affected_rows == 1){
                                         //echo "Success";
                                     } else {
                                         //echo "Fail";
@@ -76,46 +74,49 @@
             }
 
             // Close statement
-            mysqli_stmt_close($stmt);
+            $stmt->close();
         }
 
-        mysqli_close($link);
+        $mysqli->close();
     }
 
     function register() {
         require_once "config/config.php";   // Database details.
 
-        $sql = "SELECT id FROM users WHERE discord = ?";
-        if($stmt = mysqli_prepare($link, $sql)){
+        if($stmt = $mysqli->prepare("SELECT activated FROM users WHERE discord = ?")){
             // Bind variables to the prepared statement as parameters
-            mysqli_stmt_bind_param($stmt, "s", $param_discord);
+            $stmt->bind_param("s", $param_discord);
             
             // Set parameters
-            $param_discord = mysqli_escape_string($link, $_SESSION["Discord"]);
+            $param_discord = $mysqli->escape_string($_SESSION["Discord"]);
             
             // Attempt to execute the prepared statement
-            if(mysqli_stmt_execute($stmt)){
+            if($stmt->execute()){
                 /* store result */
-                mysqli_stmt_store_result($stmt);
+                $stmt->store_result();
+                $stmt->bind_result($activated);
                 
-                if(mysqli_stmt_num_rows($stmt) == 1){
-                    $taken = true;
-                    header('Location: /register?error=taken');
+                if($stmt->num_rows() == 1){
+                    if ($stmt->fetch()) {
+                        if ($activated) {
+                            header('Location: /register?error=taken');
+                        } else {
+                            header('Location: /register?error=notactivated');
+                        }
+                    }
                 } else {
-                    mysqli_stmt_close($stmt);
+                    $stmt->close();
 
-                    $sql = "INSERT INTO users (username, discriminator, discord) VALUES (?, ?, ?)";
-
-                    if($stmt = mysqli_prepare($link, $sql)){
+                    if($stmt = $mysqli->prepare("INSERT INTO users (username, discriminator, discord) VALUES (?, ?, ?)")){
                         // Bind variables to the prepared statement as parameters
-                        mysqli_stmt_bind_param($stmt, "sis", $param_username, $param_discriminator, $param_discord);
+                        $stmt->bind_param("sis", $param_username, $param_discriminator, $param_discord);
                         
                         // Set parameters
-                        $param_username = mysqli_escape_string($link, $_SESSION['Username']);
+                        $param_username = $mysqli->escape_string($_SESSION['Username']);
                         $param_discriminator = $_SESSION['Discriminator'];
                         
                         // Attempt to execute the prepared statement
-                        if(mysqli_stmt_execute($stmt)){
+                        if($stmt->execute()){
                             header('Location: /register?error=success');
                         } else{
                             header('Location: /register?error=error');
@@ -129,9 +130,9 @@
             header('Location: /register?error=error');
         }
 
-        mysqli_stmt_close($stmt);
+        $stmt->close();
         session_destroy();
-        mysqli_close($link);
+        $mysqli->close();
 
     }
 

@@ -39,6 +39,8 @@ I am making this project using [XAMPP](https://www.apachefriends.org/) which has
 
 ## **Tweaks** 🔧
 
+- [ ] *Maybe* change from MySQLi to PDO.
+- [x] Change all MySQLi code to Object Oriented instead of Procedural.
 - [x] Transfer all JavaScript to files.
 - [ ] Automatically log out a user after a period of inactivity (Task scheduler/CRON/MySQL scheduler?).
 - [ ] Combine config and auth .php files into a single .env file.
@@ -126,6 +128,18 @@ CREATE TABLE `plans` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
 ```
+
+## Testing checklist
+
+After you finish setting up the database you should check if everything works as intended, perform the actions below to check if everything works:
+
+* Register - You should get the **Registration successful!** message and a database table entry should be added with the user's details (*Check these*).
+* Register *again* - You should get the message **Account not activated!**.
+* Activate the account and Register *again* - You should now get the message **Account taken**.
+* Login with fake ICAO (e.g. XKSS) - You should get the message **Airport not found!**.
+* Login with valid ICAO (e.g. KJFK) - You should be redirected to Discord OAuth and then to the ATC page, the user's database table entry should now contain the **Airport ICAO**, their selected **Controller Position** and **LoggedIn should be set to 1**.
+* Click on your Airport ICAO in the top right corner - You should get information about that airport.
+* Change the airport using the dropdown - The user's airport value in the database should change to the new ICAO.
 
 # **Kermout's Strips System** 🐸
 
