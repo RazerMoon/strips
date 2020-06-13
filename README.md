@@ -147,16 +147,11 @@ After you finish setting up the database you should check if everything works as
 
 ## **General**
 
-Kermout's system is a simple design built with Bootstrap, jQuery and (very likely) cURL. It is running on an Apache Debian Server, (very likely) XAMPP.
+Kermout's system is a simple design built with Bootstrap, jQuery and (very likely) cURL.
 
 This system is being used on the fsATC FSX server, check out their Discord [here.](https://discord.gg/a9tQuaM)
 
 You can find Kermout on the fsATC Discord server above, here is his [website.](https://kermout.us/)
-
-| fsATC | XAMPP |
-:------------:|:----------:
-![404](.media/kermout/404.png) | ![XAMPP](.media/kermout/xampp.png)
-![css](.media/kermout/fscss.png) | ![xcss](.media/kermout/xamppcss.png)
 
 ## **(Likely) General Structure**
 
