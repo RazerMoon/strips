@@ -1,10 +1,10 @@
 <h1 align="center"><b>RazerMoons Strips System</b></h1>
 
-This is an FSX [Strips System](https://en.wikipedia.org/wiki/Flight_progress_strip) inspired by [Kermout's](https://kermout.us/) [fsATC Strips System](https://strips.fsatc.us/) (likely inspired by [Salad's](https://gitlab.com/milan44/ or the other way around.) [Downwind Strips System](https://strips.wiese2.org/)), although it can be used for other flight games aswell.
+This is an FSX [Strips System](https://en.wikipedia.org/wiki/Flight_progress_strip) inspired by [Kermout's](https://kermout.us/) [fsATC Strips System](https://strips.fsatc.us/) (likely inspired by [Salad's](https://gitlab.com/milan44/) [Downwind Strips System](https://strips.wiese2.org/) or the other way around.), although it can be used for other flight games aswell.
 
 As of writing this I couldn't find any open source flight simulator strips system so I decided to make my own (inspired by currently existing ones). Feel free to make suggestions to improve this project.
 
-I am making this project using [XAMPP](https://www.apachefriends.org/) which has [cURL](https://curl.haxx.se/) ready to go, if you are using something else **YOU NEED TO INSTALL cURL**. It is used for the Discord OAuth2 Login and Registration system.
+I am making this project using [XAMPP](https://www.apachefriends.org/) which has [cURL](https://curl.haxx.se/) ready to go, if you are using something else **YOU NEED TO INSTALL cURL**. It is used for the Discord OAuth2 Login and Registration system. Having the newest version of PHP would also help.
 
 ## **NOT FULLY COMPLETE**
 
@@ -20,6 +20,7 @@ I am making this project using [XAMPP](https://www.apachefriends.org/) which has
 
 - [ ] Finish working version.
 - [ ] Strips.
+- [ ] Flight Plan creation and deletion.
 - [x] Login and Registration system using Discord OAuth2, cURL and MySQL.
 - [x] In-depth analysis of Kermout's Strips System
 - [x] Basic layout with Bootstrap and jQuery integration.
