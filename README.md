@@ -1,6 +1,6 @@
 <h1 align="center"><b>RazerMoons Strips System</b></h1>
 
-This is an FSX [Strips System](https://en.wikipedia.org/wiki/Flight_progress_strip) inspired by [Kermout's](https://kermout.us/) [fsATC Strips System](https://strips.fsatc.us/) (likely inspired by [Salad's](https://gitlab.com/milan44/) [Downwind Strips System](https://strips.wiese2.org/) or the other way around.), although it can be used for other flight games aswell.
+This is an FSX [Strips System](https://en.wikipedia.org/wiki/Flight_progress_strip) inspired by [Kermout's](https://kermout.us/) fsATC Strips System (likely inspired by [Salad's](https://gitlab.com/milan44/) [Downwind Strips System](https://strips.wiese2.org/) or the other way around.), although it can be used for other flight games aswell.
 
 As of writing this I couldn't find any open source flight simulator strips system so I decided to make my own (inspired by currently existing ones). Feel free to make suggestions to improve this project.
 
