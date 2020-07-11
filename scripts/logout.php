@@ -8,7 +8,7 @@
     if (isset($_SESSION['Discord'])) {
         require_once "config/config.php";   // Database details.
         
-        if ($stmt = $mysqli->prepare("UPDATE `users` SET `loggedIn`= 0, `airport`='', `position`='' WHERE `discord` = ?")){
+        if ($stmt = $mysqli->prepare("UPDATE users SET loggedIn = 0, airport='', position='' WHERE discord = ?")){
 
             $stmt->bind_param("s", $param_username);
             $param_username = $_SESSION['Discord'];

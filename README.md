@@ -89,20 +89,22 @@ Entry structure:
 Use this MySQL query to set it up:
 
 ```sql
-CREATE TABLE `users` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Storage ID',
-	`username` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Discord Username without Discriminator',
-	`discriminator` INT(4) NOT NULL COMMENT 'Discord Discriminator',
-	`discord` VARCHAR(50) NOT NULL COMMENT 'Discord ID',
-	`created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of registration',
-	`activated` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Is the account activated?',
-	`loggedIn` TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Is the user logged in?',
-	`airport` VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The airport the user is controlling',
-    `position` VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'The controllers position',
-	UNIQUE KEY `discord` (`discord`) USING BTREE,
-	PRIMARY KEY (`id`)
+CREATE TABLE users (
+	id INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Storage ID',
+	username VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Discord Username without Discriminator',
+	discriminator INT(4) NOT NULL COMMENT 'Discord Discriminator',
+	discord VARCHAR(50) NOT NULL COMMENT 'Discord ID',
+	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of registration',
+	activated TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Is the account activated?',
+	loggedIn TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Is the user logged in?',
+	airport VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The airport the user is controlling',
+    position VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The controllers position',
+	UNIQUE KEY discord (discord) USING BTREE,
+	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 ```
+
+[Example (DB Fiddle)](https://www.db-fiddle.com/f/du2QAqsxy4xqkho6nH7ffK/12)
 
 The flight plans are stored in the **"plans"** table.
 
@@ -116,39 +118,41 @@ Entry structure:
 Use this MySQL query to set it up:
 
 ```sql
-CREATE TABLE `plans` (
-	`id` INT(6) NOT NULL AUTO_INCREMENT COMMENT 'ID of the plan',
-	`callsign` VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Callsign of the aircraft',
-	`aircraft` VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Aircraft ICAO',
-	`squawk` INT(4) NOT NULL,
-	`taltitude` INT(5) NULL COMMENT 'Temporary altitude',
-	`rules` VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'IFR, VFR etc.',
-	`departure_icao` VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Departing airport',
-	`arrival_icao` VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Arriving airport',
-	`altitude` INT(5) NOT NULL COMMENT 'Cruise altitude',
-	`route` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Direct GPS etc.',
-	`arrival_rw` VARCHAR(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-	`departure_rw` VARCHAR(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-	`departure_hdg` INT(3) NULL,
-	`remarks` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-	`scratchpad` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-	`controller` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'Username of controller',
-	`controller_id` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-	`created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	UNIQUE KEY `controller_id` (`controller_id`) USING BTREE,
-	PRIMARY KEY (`id`)
+CREATE TABLE plans (
+	id INT(6) NOT NULL AUTO_INCREMENT COMMENT 'ID of the plan',
+	callsign VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Callsign of the aircraft',
+	aircraft VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Aircraft ICAO',
+	squawk INT(4) NOT NULL,
+	taltitude INT(5) NULL COMMENT 'Temporary altitude',
+	rules VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'IFR, VFR etc.',
+	departure_icao VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Departing airport',
+	arrival_icao VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Arriving airport',
+	altitude INT(5) NOT NULL COMMENT 'Cruise altitude',
+	route VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Direct GPS etc.',
+	arrival_rw VARCHAR(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+	departure_rw VARCHAR(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+	departure_hdg INT(3) NULL,
+	remarks VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+	scratchpad VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+	controller VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'Username of controller',
+	controller_id VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	UNIQUE KEY controller_id (controller_id) USING BTREE,
+	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 ```
 
 Use this MySQL query to insert an example flight plan.
 
 ```sql
-INSERT INTO `plans` (
-    `id`, `callsign`, `aircraft`, `squawk`, `taltitude`, `rules`, `departure_icao`, `arrival_icao`, `altitude`, `route`, `arrival_rw`, `departure_rw`, `departure_hdg`, `remarks`, `scratchpad`, `controller`, `controller_id`, `created_at`
+INSERT INTO plans (
+    id, callsign, aircraft, squawk, taltitude, rules, departure_icao, arrival_icao, altitude, route, arrival_rw, departure_rw, departure_hdg, remarks, scratchpad, controller, controller_id, created_at
     ) VALUES (
         NULL, 'UAL256', 'B747', '2204', NULL, 'IFR', 'KJFK', 'KSAN', '20000', 'Direct GPS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, CURRENT_TIMESTAMP()
         )
 ```
+
+[Example (DB Fiddle)](https://www.db-fiddle.com/f/igzUbADP9exBuVD6Zi4n4P/3)
 
 ## Testing checklist
 

@@ -38,7 +38,7 @@
                             $_SESSION['LoggedIn'] = TRUE;
                             $stmt->close();
                             /* Set loggedIn to true*/
-                            if($stmt = $mysqli->prepare("UPDATE `users` SET `loggedIn`= 1, `airport` = ?, `position` = ? WHERE `discord` = ?")){ 
+                            if($stmt = $mysqli->prepare("UPDATE users SET loggedIn = 1, airport = ?, position = ? WHERE discord = ?")){ 
                                 
                                 $stmt->bind_param("sss", $_SESSION['Airport_ICAO'], mysqli_real_escape_string($mysqli, $_SESSION["Position"]), $param_username);
 
