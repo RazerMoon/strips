@@ -69,7 +69,7 @@ I decided to make this strips system because:
 2. I want to see can I improve some of the flaws in Kermout's system (sorry Kermout, nothing personal).
 3. I want to see can I eventually make a system as good as Salad's.
 
-Accomplishing the first goal is being done already, the second goal is in progress. The third goal is gonna take a *long* time and likely a full move to NodeJS or Go, integration with Socket.io is be very likely.
+Accomplishing the first goal is being done already, the second goal is in progress. The third goal is gonna take a *long* time and likely a full move to NodeJS or Go, integration with Socket.io is very likely.
 
 * Using [AviationAPI](https://github.com/iccowan/AviationAPI_WWW) for Airport Information.
 
@@ -144,44 +144,10 @@ Use this MySQL query to insert an example flight plan.
 
 ```sql
 INSERT INTO `plans` (
-    `id`, 
-    `callsign`, 
-    `aircraft`, 
-    `squawk`, 
-    `taltitude`, 
-    `rules`, 
-    `departure_icao`, 
-    `arrival_icao`, 
-    `altitude`, 
-    `route`, 
-    `arrival_rw`, 
-    `departure_rw`, 
-    `departure_hdg`, 
-    `remarks`, 
-    `scratchpad`, 
-    `controller`, 
-    `controller_id`, 
-    `created_at`
+    `id`, `callsign`, `aircraft`, `squawk`, `taltitude`, `rules`, `departure_icao`, `arrival_icao`, `altitude`, `route`, `arrival_rw`, `departure_rw`, `departure_hdg`, `remarks`, `scratchpad`, `controller`, `controller_id`, `created_at`
     ) VALUES (
-        NULL, 
-        'UAL256', 
-        'B747', 
-        '2204', 
-        NULL, 
-        'IFR', 
-        'KJFK', 
-        'KSAN', 
-        '20000', 
-        'Direct GPS', 
-        NULL, 
-        NULL, 
-        NULL, 
-        NULL, 
-        NULL, 
-        NULL, 
-        NULL, 
-        CURRENT_TIMESTAMP()
-        ) 
+        NULL, 'UAL256', 'B747', '2204', NULL, 'IFR', 'KJFK', 'KSAN', '20000', 'Direct GPS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, CURRENT_TIMESTAMP()
+        )
 ```
 
 ## Testing checklist
@@ -198,6 +164,7 @@ After you finish setting up the database you should check if everything works as
 * Logout - The user's **LoggedIn should change to 0** and the **Airport and Position entries should become clear**.
 * Logout - The user's **LoggedIn should change to 0** and the **Airport and Position entries should become clear**.
 * File a plan - Check that the JavaScript correctly indicates what is not allowed in the fields, try entering some incorrect ICAO's etc. Check if the database entry matches the form details.
+* Delete the plan - The database entry should be deleted along with the session.
 
 # **Kermout's Strips System** 🐸
 
