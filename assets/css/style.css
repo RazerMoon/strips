@@ -1,21 +1,168 @@
 body {
-    padding-top: 5rem;
-    background: url(/assets/img/cover.jpg);
-    background-size: cover;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
-.intro {
-    padding: 3rem 1.5rem;
-    text-align: center;
+.form-signin {
+    width: 100%;
+    max-width: 620px;
+    padding: 15px;
+    margin: auto;
+    background-color: rgba(220, 220, 255, 0.9);
+    border-radius: 2%/2%;
+    border: 1px solid black;
+}
+
+.uppercase {
+    text-transform: uppercase;
+}
+
+.alert-dismissible {
+    padding-right: 1.25rem;
+}
+
+.alert-dismissible .close {
+    padding: .1rem .6rem;
 }
 
 .navbar {
     background-color: rgba(0, 0, 0, 0.2);
 }
 
-.container {
-    backdrop-filter: blur(10px);
-    background-color: rgba(88, 222, 255, 0.363);
-    border-radius: 2%/10%;
-    border: 1px solid black;
+.form-signin:before {
+    display: block;
+    content: "";
+    position: fixed;
+    top: -5%;
+    left: -5%;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    background: url(../img/file.jpg) center;
+    background-size: cover;
+    filter: blur(5px) brightness(0.6);
 }
+
+.form-label-group {
+    position: relative;
+    margin-bottom: 1rem;
+}
+
+.form-control {
+    font-size: 1.1rem;
+}
+
+.form-label-group>input,
+.form-label-group>label,
+.form-label-group>select {
+    height: 3.125rem;
+    padding: .75rem;
+}
+
+.form-label-group>label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100%;
+    margin-bottom: 0;
+    /* Override default `<label>` margin */
+    line-height: 1.5;
+    color: #495057;
+    pointer-events: none;
+    cursor: text;
+    /* Match the input under the label */
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    transition: all .1s ease-in-out;
+}
+
+.form-label-group input::-webkit-input-placeholder {
+    color: transparent;
+}
+
+.form-label-group input:-ms-input-placeholder {
+    color: transparent;
+}
+
+.form-label-group input::-ms-input-placeholder {
+    color: transparent;
+}
+
+.form-label-group input::-moz-placeholder {
+    color: transparent;
+}
+
+.form-label-group input::placeholder {
+    color: transparent;
+}
+
+.form-label-group input:not(:placeholder-shown) {
+    padding-top: 1.25rem;
+    padding-bottom: .25rem;
+}
+
+.form-label-group input:not(:placeholder-shown)~label {
+    padding-top: .25rem;
+    padding-bottom: .25rem;
+    font-size: 10px;
+    color: #777;
+}
+
+
+/* Fallback for Edge
+-------------------------------------------------- */
+
+@supports (-ms-ime-align: auto) {
+    .form-label-group>label {
+        display: none;
+    }
+    .form-label-group input::-ms-input-placeholder {
+        color: #777;
+    }
+}
+
+
+/* Fallback for IE
+-------------------------------------------------- */
+
+@media all and (-ms-high-contrast: none),
+(-ms-high-contrast: active) {
+    .form-label-group>label {
+        display: none;
+    }
+    .form-label-group input:-ms-input-placeholder {
+        color: #777;
+    }
+}
+
+
+/* Dark mode */
+
+
+/*
+
+.form-signin {
+    background-color: #303030;
+}
+
+.form-control {
+    color: white;
+    background-color: #1f1f1f;
+}
+
+.form-control:focus {
+    color: white;
+    background-color: black;
+}
+
+svg {
+    filter: invert(1);
+}
+
+*/

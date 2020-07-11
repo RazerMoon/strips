@@ -1,4 +1,10 @@
 <?php
+    
+    /**
+     * Returns an alert with error details.
+     *
+     * @return void
+     */
     function displayError() {
         if(isset($_GET['error'])) {
 
@@ -23,12 +29,67 @@
 
             case 'badname':
                 $title = "Invalid ICAO!";
-                $info = "Only letters and numbers allowed in the Airport ICAO field! Please try again.";
+                $info = "Only letters and numbers allowed in the Airport ICAO field! Please try again and make sure to use four characters.";
+            break;
+
+            case 'callsignbadname':
+                $title = "Invalid Callsign!";
+                $info = "Only letters and numbers allowed in the Callsign field! Please try again and make sure to use a maximum of ten characters.";
+            break;
+
+            case 'aircraftbadname':
+                $title = "Invalid Aircraft!";
+                $info = "Only letters and numbers allowed in the Aircraft field! Please try again and make sure to use a minimum of two and maximum of four characters.";
+            break;
+
+            case 'rulesbadname':
+                $title = "Invalid Rules!";
+                $info = "Only IFR, VFR or SVFR allowed!";
+            break;
+
+            case 'depbadname':
+                $title = "Invalid Departure ICAO!";
+                $info = "Only letters and numbers allowed in the Airport ICAO field! Please try again and make sure to use four characters.";
+            break;
+
+            case 'arrbadname':
+                $title = "Invalid Arrival ICAO!";
+                $info = "Only letters and numbers allowed in the Airport ICAO field! Please try again and make sure to use four characters.";
+            break;
+
+            case 'altitudebad':
+                $title = "Invalid Altitude!";
+                $info = "A maximum of five numbers allowed!";
+            break;
+
+            case 'routebad':
+                $title = "Invalid Route!";
+                $info = "Only letters and numbers allowed in the Route field! Please try again and make sure to use a maximum of one hundred characters.";
+            break;
+
+            case 'remarksbad':
+                $title = "Invalid Remarks!";
+                $info = "Only letters and numbers allowed in the Remarks field! Please try again and make sure to use a maximum of tweny characters.";
             break;
 
             case 'notfound':
-                $title = "Airport not found!";
+                $title = "Airport Not Found!";
                 $info = "Cannot find an airport with that name! Please try again.";
+            break;
+
+            case 'depnotfound':
+                $title = "Departure Airport Not Found!";
+                $info = "Cannot find an airport with that name! Please try again.";
+            break;
+
+            case 'arrnotfound':
+                $title = "Arrival Airport Not Found!";
+                $info = "Cannot find an airport with that name! Please try again.";
+            break;
+
+            case 'missing_plan_property':
+                $title = "Missing Plan Property!";
+                $info = "One of the plan properties are missing";
             break;
 
             case 'error':
@@ -37,18 +98,43 @@
             break;
 
             case 'taken':
-                $title = "Account taken!";
+                $title = "Account Taken!";
                 $info = "This account is already registered! Click <a href='/login'>here</a> to sign in.";
             break;
 
             case 'activate':
-                $title = "Account taken!";
+                $title = "Account Taken!";
                 $info = "This account is already registered! Please contact a moderator for activation.";
             break;
 
             case 'invalid_request':
                 $title = "OAuth Error!";
                 $info = "There was an error trying to get the access token! Please try again or contact a moderator if you need help.";
+            break;
+
+            case 'access_denied':
+                $title = "Access Denied!";
+                $info = "The resource owner or authorization server denied the request. Did you press cancel?";
+            break;
+
+            case 'commit_error':
+                $title = "Commit Error!";
+                $info = "An error occured while trying to write to the database! Please try again or contact a moderator for help.";
+            break;
+
+            case 'db_error':
+                $title = "Database Error!";
+                $info = "An error occured while trying to write to the database! Please try again or contact a moderator for help.";
+            break;
+
+            case 'prepare_fail':
+                $title = "Prepare Fail!";
+                $info = "An error occured while trying to prepare a statement! Please try again or contact a moderator for help.";
+            break;
+
+            case 'delete_success':
+                $title = "Deletion Successfull!";
+                $info = "Flight plan was deleted successfully!";
             break;
 
             default:

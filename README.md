@@ -1,6 +1,6 @@
 <h1 align="center"><b>RazerMoons Strips System</b></h1>
 
-This is an FSX [Strips System](https://en.wikipedia.org/wiki/Flight_progress_strip) inspired by [Kermout's](https://kermout.us/) [fsATC Strips System](https://strips.fsatc.us/) (likely inspired by [Salad's](https://gitlab.com/milan44/) [Downwind Strips System](https://strips.wiese2.org/)), although it can be used for other flight games aswell.
+This is an FSX [Strips System](https://en.wikipedia.org/wiki/Flight_progress_strip) inspired by [Kermout's](https://kermout.us/) [fsATC Strips System](https://strips.fsatc.us/) (likely inspired by [Salad's](https://gitlab.com/milan44/ or the other way around.) [Downwind Strips System](https://strips.wiese2.org/)), although it can be used for other flight games aswell.
 
 As of writing this I couldn't find any open source flight simulator strips system so I decided to make my own (inspired by currently existing ones). Feel free to make suggestions to improve this project.
 
@@ -28,12 +28,18 @@ I am making this project using [XAMPP](https://www.apachefriends.org/) which has
 
 - [ ] In-depth analysis of Salad's Downwind Strips System.
 - [ ] Messaging system.
+- [ ] Strip docs similar to [Salad's system](https://strips.wiese2.org/help/) that use [PrettyDocs](https://themes.3rdwavemedia.com/bootstrap-templates/product/prettydocs-free-bootstrap-theme-for-developers-and-startups/) (maybe using [CoderDocs](https://themes.3rdwavemedia.com/bootstrap-templates/product/coderdocs-free-bootstrap-4-documentation-template-for-software-projects/)?).
 - [ ] Username emoji support.
+- [ ] Strips API.
 - [ ] Suggested aircraft/aircraft from database selection.
 - [ ] Airport chart information.
 - [ ] Aircraft tooltip information.
 - [ ] Separate table for currently active users.
 - [ ] Admin accounts with the ability to activate other accounts.
+- [ ] Airline information.
+- [ ] Combine login and registration pages.
+- [ ] Option to switch between dark and light mode.
+- [x] Add live Bootstrap form [validation](https://getbootstrap.com/docs/4.5/components/forms/#validation).
 - [x] Quick airport change.
 - [x] Airport information.
 
@@ -42,9 +48,13 @@ I am making this project using [XAMPP](https://www.apachefriends.org/) which has
 - [ ] *Maybe* change from MySQLi to PDO.
 - [x] Change all MySQLi code to Object Oriented instead of Procedural.
 - [x] Transfer all JavaScript to files.
+- [ ] Use downloaded airline data from OpenFlights instead of using POST requests.
+- [ ] Allow some special chars in the route and remarks field by using [MySQLi::real_escape_string](https://www.php.net/manual/en/mysqli.real-escape-string.php).
+- [ ] Work on strip dynamic tooltip code (atc.js).
 - [ ] Automatically log out a user after a period of inactivity (Task scheduler/CRON/MySQL scheduler?).
 - [ ] Combine config and auth .php files into a single .env file.
 - [ ] Give each user and plan a randomly generated ID instead of auto incrementing.
+- [ ] Optimise for mobile.
 
 # **RazerMoon's Strips System** 🌙
 
@@ -110,23 +120,67 @@ CREATE TABLE `plans` (
 	`callsign` VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Callsign of the aircraft',
 	`aircraft` VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Aircraft ICAO',
 	`squawk` INT(4) NOT NULL,
-	`taltitude` INT(5) NOT NULL COMMENT 'Temporary altitude',
+	`taltitude` INT(5) NULL COMMENT 'Temporary altitude',
 	`rules` VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'IFR, VFR etc.',
 	`departure_icao` VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Departing airport',
 	`arrival_icao` VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Arriving airport',
 	`altitude` INT(5) NOT NULL COMMENT 'Cruise altitude',
 	`route` VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Direct GPS etc.',
-	`arrival_rw` VARCHAR(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-	`departure_rw` VARCHAR(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-	`departure_hdg` INT(3) NOT NULL,
-	`remarks` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-	`scratchpad` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-	`controller` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Username of controller',
-	`controller_id` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+	`arrival_rw` VARCHAR(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+	`departure_rw` VARCHAR(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+	`departure_hdg` INT(3) NULL,
+	`remarks` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+	`scratchpad` VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+	`controller` VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'Username of controller',
+	`controller_id` VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
 	`created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	UNIQUE KEY `controller_id` (`controller_id`) USING BTREE,
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB;
+```
+
+Use this MySQL query to insert an example flight plan.
+
+```sql
+INSERT INTO `plans` (
+    `id`, 
+    `callsign`, 
+    `aircraft`, 
+    `squawk`, 
+    `taltitude`, 
+    `rules`, 
+    `departure_icao`, 
+    `arrival_icao`, 
+    `altitude`, 
+    `route`, 
+    `arrival_rw`, 
+    `departure_rw`, 
+    `departure_hdg`, 
+    `remarks`, 
+    `scratchpad`, 
+    `controller`, 
+    `controller_id`, 
+    `created_at`
+    ) VALUES (
+        NULL, 
+        'UAL256', 
+        'B747', 
+        '2204', 
+        NULL, 
+        'IFR', 
+        'KJFK', 
+        'KSAN', 
+        '20000', 
+        'Direct GPS', 
+        NULL, 
+        NULL, 
+        NULL, 
+        NULL, 
+        NULL, 
+        NULL, 
+        NULL, 
+        CURRENT_TIMESTAMP()
+        ) 
 ```
 
 ## Testing checklist
@@ -140,6 +194,9 @@ After you finish setting up the database you should check if everything works as
 * Login with valid ICAO (e.g. KJFK) - You should be redirected to Discord OAuth and then to the ATC page, the user's database table entry should now contain the **Airport ICAO**, their selected **Controller Position** and **LoggedIn should be set to 1**.
 * Click on your Airport ICAO in the top right corner - You should get information about that airport.
 * Change the airport using the dropdown - The user's airport value in the database should change to the new ICAO.
+* Logout - The user's **LoggedIn should change to 0** and the **Airport and Position entries should become clear**.
+* Logout - The user's **LoggedIn should change to 0** and the **Airport and Position entries should become clear**.
+* File a plan - Check that the JavaScript correctly indicates what is not allowed in the fields, try entering some incorrect ICAO's etc. Check if the database entry matches the form details.
 
 # **Kermout's Strips System** 🐸
 
@@ -149,9 +206,9 @@ After you finish setting up the database you should check if everything works as
 
 Kermout's system is a simple design built with Bootstrap, jQuery and (very likely) cURL.
 
-This system is being used on the fsATC FSX server, check out their Discord [here.](https://discord.gg/a9tQuaM)
+This system was being used on the fsATC FSX server as a temporary replacement, check out their Discord [here.](https://discord.gg/a9tQuaM)
 
-You can find Kermout on the fsATC Discord server above, here is his [website.](https://kermout.us/)
+You can find Kermout on the fsATC Discord server above or the [Downwind Discord Server.](https://discord.gg/aqyyFNw). Here is his [website.](https://kermout.us/)
 
 ## **(Likely) General Structure**
 
@@ -177,6 +234,9 @@ You can find Kermout on the fsATC Discord server above, here is his [website.](h
     │   ├── take.php            # (Likely) adds flight plan ID to session
     │   └── logreg.php          # Responsible for login and registration
     └── index.php               # Homepage
+    └── plan.php                # Shows your current plan
+    └── fetch-plan.php          # Used to get info about your plan, fetched every 15 seconds by plan.php
+    └── logout.php              # Logs you out of controller.
 
 ## **Some screenshots of the actual structure**
 
@@ -188,9 +248,7 @@ You can find Kermout on the fsATC Discord server above, here is his [website.](h
 
 The website is quite slow. I don't know if this is due to the code or the host, but optimising the code would make the process of being a controller a lot less painful. Switching to NodeJS or Go would also speed up the website, especially the actual strips system.
 
-*P.S. Switching to arrow functions would also be nice.*
-
-> Beware, I am new to PHP and jQuery. I might write that I think the way something being done on the website is not good, however it may actually be the best option and I just don't know. Feel free to correct me on any misconceptions that I may have in the issues below.
+> Beware, I am new to PHP and jQuery. I might write that I think the way something being done on the website is not good, however it may actually be the best option and I just don't know. Feel free to correct me on any misconceptions that I may have in the issues below. Also, I know this system is a placeholder but I am nitpicking for the sake of improving my strips system.
 
 ### **Live edit issues**
 
@@ -279,7 +337,7 @@ Salad's system handles this in a different way, by using a *save* button to comm
 
 ![Resources](.media/kermout/reso.png)
 
-The fetch-right.php and fetch-left.php files both import popper.js and bootstrap.js, mind you **they get requested every eight seconds**. That means that both JavaScript files get requested every eight seconds, and you end up with this constant stream of requests of *the same thing*. I mean, *just look at it*.
+The fetch-right.php and fetch-left.php files both import popper.js and bootstrap.js, mind you **they get requested every eight seconds**. That means that both JavaScript files get requested every eight seconds, and you end up with this constant stream of requests of *the same thing*. I mean, *just look at it*. This happens even if your cache is not disabled, removing the script tags in the PHP file didn't break anything for me so I am not sure why they are there.
 
 ### **Action issues**
 
@@ -290,6 +348,16 @@ First of all, the 'X' button just straight up doesn't work, you have to click of
 This modal also shows up if you try to take a flight plan, WHY? The flight plans on the left side already have the ID in the element, you could just make an AJAX request whenever you want to take the plan or delete it.
 
 The issues also combine, if you commit an edit to a flight plan after being in the action menu, the page refreshes and the modal shows up again (because that GET request added a query to the location address).
+
+### **Validation issues**
+
+![Validation](.media/kermout/post.gif)
+
+This is more of a security risk/annoyance if anything. You file a plan by making a POST request, however the Flight Rules and Altitude fields don't get validated.
+
+You can make the VFR/IFR option disappear using this method, for general use this shouldn't be a problem. It doesn't require much code to fix.
+
+You can click [HERE](https://documenter.getpostman.com/view/11802866/T17Aiq8i) and go to the File Strip (Non-Standard) section to see an example of this bug, you can also use this bug in my [Kermout-Strips-API](https://github.com/RazerMoon/Kermout_Strips_API).
 
 ## **Salad's Strips System** 🍂
 

@@ -8,7 +8,7 @@
     //print_r($_SESSION);
     //echo "</pre>";
 
-    function clean($string) {
+    function clean(string $string) {
         $string = trim($string);                                // Removes outside spaces.
         preg_replace('/[^A-Za-z0-9\-]/', '', $string);          // Removes special chars.
         $string = str_replace(' ', '', $string);                // Replaces all spaces with hyphens.
@@ -138,7 +138,7 @@
 
     // Exchange the access token for discord credentials.
 
-    function getData($access_token) {
+    function getData(string $access_token) {
         // Open connection
         $ch = curl_init();
         
@@ -182,7 +182,15 @@
         }
     }
 
-    if (isset($_GET['code']) && isset($_SESSION['Mode'])) {  
+    if (isset($_GET['error'])) {
+        $error = htmlspecialchars($_GET['error']);
+        if ($_SESSION['Mode'] == 'login') {
+            header("Location: /login?error={$error}");            // Send back to login page with an error.
+        } else {
+            header("Location: /register?error={$error}");       // Send back to register page with an error.
+        }
+    }
+    elseif (isset($_GET['code']) && isset($_SESSION['Mode'])) {  
         // Sending application data in the POST request.
         $fields = [
             'client_id'      => AUTH_CLIENT_ID,

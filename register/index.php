@@ -2,8 +2,8 @@
     /* If a user tries tries to visit this page while logged in, they get redirected back to the atc page. */
     session_start();                        // Starts the session.
 
-    include $_SERVER['DOCUMENT_ROOT'].'/scripts/logblock.php';
-    include $_SERVER['DOCUMENT_ROOT'].'/scripts/errorhandler.php';
+    include __DIR__.'/../scripts/logblock.php';
+    include __DIR__.'/../scripts/errorhandler.php';
 
 ?>
 
@@ -19,7 +19,7 @@
 
     <!-- Stylesheets -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href=assets/css/style.css>
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 
 <body>
