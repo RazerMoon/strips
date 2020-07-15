@@ -1,4 +1,4 @@
-<h1 align="center"><b>RazerMoons Strips System</b></h1>
+<h1 align="center"><b>RazerMoon's Strips System</b></h1>
 
 This is an FSX [Strips System](https://en.wikipedia.org/wiki/Flight_progress_strip) inspired by [Kermout's](https://kermout.us/) fsATC Strips System (likely inspired by [Salad's](https://gitlab.com/milan44/) [Downwind Strips System](https://strips.wiese2.org/) or the other way around.), although it can be used for other flight games aswell.
 
@@ -90,17 +90,17 @@ Use this MySQL query to set it up:
 
 ```sql
 CREATE TABLE users (
-	id INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Storage ID',
-	username VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Discord Username without Discriminator',
-	discriminator INT(4) NOT NULL COMMENT 'Discord Discriminator',
-	discord VARCHAR(50) NOT NULL COMMENT 'Discord ID',
-	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of registration',
-	activated TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Is the account activated?',
-	loggedIn TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Is the user logged in?',
-	airport VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The airport the user is controlling',
+    id INT(11) NOT NULL AUTO_INCREMENT COMMENT 'Storage ID',
+    username VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Discord Username without Discriminator',
+    discriminator INT(4) NOT NULL COMMENT 'Discord Discriminator',
+    discord VARCHAR(50) NOT NULL COMMENT 'Discord ID',
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date of registration',
+    activated TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Is the account activated?',
+    loggedIn TINYINT(1) NOT NULL DEFAULT '0' COMMENT 'Is the user logged in?',
+    airport VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The airport the user is controlling',
     position VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'The controllers position',
-	UNIQUE KEY discord (discord) USING BTREE,
-	PRIMARY KEY (id)
+    UNIQUE KEY discord (discord) USING BTREE,
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 ```
 
@@ -119,26 +119,26 @@ Use this MySQL query to set it up:
 
 ```sql
 CREATE TABLE plans (
-	id INT(6) NOT NULL AUTO_INCREMENT COMMENT 'ID of the plan',
-	callsign VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Callsign of the aircraft',
-	aircraft VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Aircraft ICAO',
-	squawk INT(4) NOT NULL,
-	taltitude INT(5) NULL COMMENT 'Temporary altitude',
-	rules VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'IFR, VFR etc.',
-	departure_icao VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Departing airport',
-	arrival_icao VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Arriving airport',
-	altitude INT(5) NOT NULL COMMENT 'Cruise altitude',
-	route VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Direct GPS etc.',
-	arrival_rw VARCHAR(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-	departure_rw VARCHAR(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-	departure_hdg INT(3) NULL,
-	remarks VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-	scratchpad VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-	controller VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'Username of controller',
-	controller_id VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
-	created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	UNIQUE KEY controller_id (controller_id) USING BTREE,
-	PRIMARY KEY (id)
+    id INT(6) NOT NULL AUTO_INCREMENT COMMENT 'ID of the plan',
+    callsign VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Callsign of the aircraft',
+    aircraft VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Aircraft ICAO',
+    squawk INT(4) NOT NULL,
+    taltitude INT(5) NULL COMMENT 'Temporary altitude',
+    rules VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'IFR, VFR etc.',
+    departure_icao VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Departing airport',
+    arrival_icao VARCHAR(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Arriving airport',
+    altitude INT(5) NOT NULL COMMENT 'Cruise altitude',
+    route VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT 'Direct GPS etc.',
+    arrival_rw VARCHAR(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+    departure_rw VARCHAR(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+    departure_hdg INT(3) NULL,
+    remarks VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+    scratchpad VARCHAR(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+    controller VARCHAR(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL COMMENT 'Username of controller',
+    controller_id VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE KEY controller_id (controller_id) USING BTREE,
+    PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 ```
 
