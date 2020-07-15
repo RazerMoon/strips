@@ -342,3 +342,7 @@ This system is being used on the [Downwind](https://downwindfs.com/) FSX server,
 You can find Salad in the server above or [here.](https://gitlab.com/milan44)
 
 ### ***Analysis not done yet***
+
+# License
+
+This repository is using the GNU GPLv3.
