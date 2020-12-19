@@ -7,6 +7,7 @@ As of writing this I couldn't find any open source flight simulator strips syste
 I am making this project using [XAMPP](https://www.apachefriends.org/) which has [cURL](https://curl.haxx.se/) ready to go, if you are using something else **YOU NEED TO INSTALL cURL**. It is used for the Discord OAuth2 Login and Registration system. Having the newest version of PHP would also help.
 
 ## **NOT FULLY COMPLETE**
+I am not working on this anymore, however I have made it public for anybody who wants to use some code from it.
 
 ## **Table of Contents**
 
